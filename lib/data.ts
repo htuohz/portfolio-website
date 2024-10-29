@@ -2,9 +2,10 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-import corpcommentImg from "@/public/corpcomment.png";
-import rmtdevImg from "@/public/rmtdev.png";
-import wordanalyticsImg from "@/public/wordanalytics.png";
+import auxitaImage from "@/public/auxita-desktop-mockup.png";
+import futureGolfImg from "@/public/fg-smart-handicap.png";
+import convoseImg from "@/public/convose.png"
+
 
 export const links = [
   {
@@ -35,52 +36,52 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "Graduated bootcamp",
-    location: "Miami, FL",
+    title: "Full-Stack Developer",
+    location: "Brisbane/Remote",
     description:
-      "I graduated after 6 months of studying. I immediately found a job as a front-end developer.",
+      "Developed and maintained scalable healthcare applications using MongoDB, Node.js, and React, improving patient data management and reporting functionality.",
     icon: React.createElement(LuGraduationCap),
-    date: "2019",
+    date: "Jan 2023 - Oct 2024",
+  },
+  {
+    title: "Freelancer Full-Stack Developer",
+    location: "Remote",
+    description:
+      "Contributed to front-end website architecture and backend API design, focusing on creating responsive and user-friendly interfaces.",
+    icon: React.createElement(CgWorkAlt),
+    date: "Dec 2021 - Dec 2022",
   },
   {
     title: "Front-End Developer",
-    location: "Orlando, FL",
+    location: "Hobart/Remote",
     description:
-      "I worked as a front-end developer for 2 years in 1 job and 1 year in another job. I also upskilled to the full stack.",
-    icon: React.createElement(CgWorkAlt),
-    date: "2019 - 2021",
-  },
-  {
-    title: "Full-Stack Developer",
-    location: "Houston, TX",
-    description:
-      "I'm now a full-stack developer working as a freelancer. My stack includes React, Next.js, TypeScript, Tailwind, Prisma and MongoDB. I'm open to full-time opportunities.",
+      "Developed new frontend features for a social media platform using React.js and React Native for mobile apps.",
     icon: React.createElement(FaReact),
-    date: "2021 - present",
+    date: "Sep 2020 - Jul 2021",
   },
 ] as const;
 
 export const projectsData = [
   {
-    title: "CorpComment",
+    title: "Auxita",
     description:
-      "I worked as a full-stack developer on this startup project for 2 years. Users can give public feedback to companies.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "Prisma"],
-    imageUrl: corpcommentImg,
+      "Auxita’s digital platform seamlessly and securely connects physicians, patients, and patient support programs together – reducing administrative burdens and empowering medical practices to deliver care faster and more efficiently to patients.",
+    tags: ["React", "Express.js", "MongoDB", "Material-UI"],
+    imageUrl: auxitaImage,
   },
   {
-    title: "rmtDev",
+    title: "FutreGolf",
     description:
-      "Job board for remote developer jobs. I was the front-end developer. It has features like filtering, sorting and pagination.",
-    tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
-    imageUrl: rmtdevImg,
+      "This is an e-commerce project. Future Golf has a website and a mobile app to serve its clients. The whole system allows clients to book golf rounds and staff to manage customer information.",
+    tags: ["React", "TypeScript", "React Native", "Php", "WordPress"],
+    imageUrl: futureGolfImg,
   },
   {
-    title: "Word Analytics",
+    title: "Convose",
     description:
-      "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
-    tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
-    imageUrl: wordanalyticsImg,
+      "This is a social media platform. It provides users with interest matching and allows users to start instant conversations with a web application and mobile app.",
+    tags: ["React", "React Native", "Redux", "Agora SDK"],
+    imageUrl: convoseImg,
   },
 ] as const;
 
@@ -89,19 +90,15 @@ export const skillsData = [
   "CSS",
   "JavaScript",
   "TypeScript",
+  "Php",
+  "C#",
   "React",
-  "Next.js",
   "Node.js",
   "Git",
-  "Tailwind",
-  "Prisma",
   "MongoDB",
   "Redux",
-  "GraphQL",
-  "Apollo",
   "Express",
   "PostgreSQL",
-  "Python",
-  "Django",
-  "Framer Motion",
+  "AWS",
+  "Agile"
 ] as const;

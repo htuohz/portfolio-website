@@ -19,30 +19,19 @@ export default function About() {
     >
       <SectionHeading>About me</SectionHeading>
       <p className="mb-3">
-        After graduating with a degree in{" "}
-        <span className="font-medium">Accounting</span>, I decided to pursue my
-        passion for programming. I enrolled in a coding bootcamp and learned{" "}
-        <span className="font-medium">full-stack web development</span>.{" "}
-        <span className="italic">My favorite part of programming</span> is the
-        problem-solving aspect. I <span className="underline">love</span> the
-        feeling of finally figuring out a solution to a problem. My core stack
-        is{" "}
-        <span className="font-medium">
-          React, Next.js, Node.js, and MongoDB
-        </span>
-        . I am also familiar with TypeScript and Prisma. I am always looking to
-        learn new technologies. I am currently looking for a{" "}
-        <span className="font-medium">full-time position</span> as a software
-        developer.
+        I am a passionate and dedicated web developer with a strong foundation
+        in creating dynamic, user-friendly web applications. My journey in
+        technology began with a fascination for how things work behind the
+        scenes, evolving into a love for crafting seamless digital experiences.
       </p>
-
-      <p>
-        <span className="italic">When I'm not coding</span>, I enjoy playing
-        video games, watching movies, and playing with my dog. I also enjoy{" "}
-        <span className="font-medium">learning new things</span>. I am currently
-        learning about{" "}
-        <span className="font-medium">history and philosophy</span>. I'm also
-        learning how to play the guitar.
+      <p className="mb-3">
+        I specialize in full-stack development using the{" "}
+        <strong>MERN stack</strong>
+        (MongoDB, Express, React, Node.js), allowing me to build comprehensive
+        web solutions that are both robust and efficient. With a solid grasp of
+        front-end technologies like HTML, CSS, and JavaScript, I focus on
+        creating intuitive user interfaces while leveraging back-end
+        technologies to ensure smooth data handling and application performance.
       </p>
     </motion.section>
   );
