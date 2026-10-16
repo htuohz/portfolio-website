@@ -60,31 +60,29 @@ Repository **secrets**:
 
 ### Caddy
 
-Preview (already live in `/etc/caddy/Caddyfile`, inside the `ops.dappergentsocks.com` block, before its `reverse_proxy`):
+Live in `/etc/caddy/Caddyfile` on the VPS (back it up and run `caddy validate` before reloading):
 
 ```
-@portfolioRoot path /portfolio-preview
-redir @portfolioRoot /portfolio-preview/ 308
-
-route /portfolio-preview/* {
-  uri strip_prefix /portfolio-preview
-  root * /srv/portfolio-preview/current
-  encode zstd gzip
-  header X-Robots-Tag "noindex, nofollow"
-  header X-Content-Type-Options nosniff
-  header Cache-Control "no-cache"
-  file_server
-}
-```
-
-Production, as its own site block:
-
-```
-tianhaozhou.com, www.tianhaozhou.com {
+tianhaozhou.com {
   root * /srv/portfolio/current
   encode zstd gzip
   try_files {path} {path}/index.html =404
+  header X-Content-Type-Options nosniff
   header /_next/static/* Cache-Control "public, max-age=31536000, immutable"
   file_server
 }
+
+www.tianhaozhou.com {
+  redir https://tianhaozhou.com{uri} 308
+}
 ```
+
+The old preview path, inside the `ops.dappergentsocks.com` block, now only redirects:
+
+```
+handle_path /portfolio-preview* {
+  redir https://tianhaozhou.com{uri} 308
+}
+```
+
+To serve a preview build again, set `SITE_ENV=preview` and restore a `route /portfolio-preview/*` block rooted at `/srv/portfolio-preview/current`.
