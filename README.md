@@ -47,7 +47,7 @@ Repository **variables** (Settings → Secrets and variables → Actions → Var
 | `SITE_ENV` | `preview` (default) or `production`                                    |
 | `SITE_URL` | `https://ops.dappergentsocks.com` for preview, `https://tianhaozhou.com` for production |
 
-`SITE_ENV` also picks the target: `/var/www/portfolio/` for production, `/var/www/portfolio-preview/` otherwise. A production build fails while any `<Fill>` placeholder remains.
+`SITE_ENV` also picks the target: `/srv/portfolio` for production, `/srv/portfolio-preview` otherwise. Each deploy is uploaded to `releases/<UTC time>-<sha>/`, then the `current` symlink is switched to it; the newest 5 releases are kept, so rolling back is re-pointing `current`. A production build fails while any `<Fill>` placeholder remains.
 
 Repository **secrets**:
 
@@ -60,14 +60,19 @@ Repository **secrets**:
 
 ### Caddy
 
-Preview, added inside the existing `ops.dappergentsocks.com` block:
+Preview (already live in `/etc/caddy/Caddyfile`, inside the `ops.dappergentsocks.com` block, before its `reverse_proxy`):
 
 ```
-handle /portfolio-preview* {
-  root * /var/www
+@portfolioRoot path /portfolio-preview
+redir @portfolioRoot /portfolio-preview/ 308
+
+route /portfolio-preview/* {
+  uri strip_prefix /portfolio-preview
+  root * /srv/portfolio-preview/current
   encode zstd gzip
-  try_files {path} {path}/index.html =404
-  header /portfolio-preview/_next/static/* Cache-Control "public, max-age=31536000, immutable"
+  header X-Robots-Tag "noindex, nofollow"
+  header X-Content-Type-Options nosniff
+  header Cache-Control "no-cache"
   file_server
 }
 ```
@@ -76,7 +81,7 @@ Production, as its own site block:
 
 ```
 tianhaozhou.com, www.tianhaozhou.com {
-  root * /var/www/portfolio
+  root * /srv/portfolio/current
   encode zstd gzip
   try_files {path} {path}/index.html =404
   header /_next/static/* Cache-Control "public, max-age=31536000, immutable"

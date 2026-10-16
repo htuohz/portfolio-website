@@ -43,12 +43,16 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
 
-      - name: Upload with rsync
+      # Matches the server layout: each deploy goes to releases/<UTC time>-<sha>, then the
+      # `current` symlink (Caddy's root) is swapped atomically. The newest 5 releases are kept.
+      - name: Upload release and switch current
         env:
           HOST: ${{ secrets.VPS_HOST }}
           USER: ${{ secrets.VPS_USER }}
         run: |
-          if [ "$SITE_ENV" = "production" ]; then target=/var/www/portfolio/; else target=/var/www/portfolio-preview/; fi
-          rsync -az --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
-            out/ "$USER@$HOST:$target"
+          if [ "$SITE_ENV" = "production" ]; then base=/srv/portfolio; else base=/srv/portfolio-preview; fi
+          release="$base/releases/$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_SHA::7}"
+          ssh_cmd="ssh -i $HOME/.ssh/deploy_key -o StrictHostKeyChecking=yes"
+          $ssh_cmd "$USER@$HOST" "mkdir -p '$release'"
+          rsync -az -e "$ssh_cmd" out/ "$USER@$HOST:$release/"
+          $ssh_cmd "$USER@$HOST" "ln -sfn '$release' '$base/current.tmp' && mv -Tf '$base/current.tmp' '$base/current' && cd '$base/releases' && ls -1 | sort -r | tail -n +6 | xargs -r rm -rf --"
