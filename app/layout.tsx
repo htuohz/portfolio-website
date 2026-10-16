@@ -1,18 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Schibsted_Grotesk, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { isProd, person, siteUrl } from "@/lib/site";
 import "./globals.css";
 
-const sans = Schibsted_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+// Self-hosted (latin, variable weight) so builds never fetch from Google Fonts. Files from
+// Fontsource 5.3.0, SIL OFL 1.1; licences sit next to them in app/fonts/.
+const sans = localFont({
+  src: "./fonts/schibsted-grotesk-latin-wght-normal.woff2",
+  weight: "400 900",
   variable: "--font-sans",
   display: "swap",
 });
 
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+const mono = localFont({
+  src: "./fonts/jetbrains-mono-latin-wght-normal.woff2",
+  weight: "100 800",
   variable: "--font-mono",
   display: "swap",
 });
