@@ -188,15 +188,15 @@ export default function Home() {
                 <span className="org">Linfox</span>
                 <span>2025–present</span>
               </div>
-              <h3>A self-service tool for master data</h3>
+              <h3>An internal tool for master data changes</h3>
               <p>
-                Updating <Fill>[which master data]</Fill> used to need a developer and up to an hour per request. I built
-                a role-restricted tool so <Fill>[which team]</Fill> can make the change themselves in under five minutes.
+                Updating service IDs and locations used to take a developer up to an hour per request. I built a
+                role-restricted internal tool so the development team can make the change in under five minutes.
               </p>
               <div
                 className="timechart"
                 role="img"
-                aria-label="Time per task: previous process 30 to 60 minutes; self-service tool under 5 minutes."
+                aria-label="Time per task: previous process 30 to 60 minutes; internal tool under 5 minutes."
               >
                 <div className="row">
                   <div className="lbl">
@@ -208,7 +208,7 @@ export default function Home() {
                 </div>
                 <div className="row">
                   <div className="lbl">
-                    Self-service tool<small>under 5 min</small>
+                    Internal tool<small>under 5 min</small>
                   </div>
                   <div className="track">
                     <div className="band new" />
