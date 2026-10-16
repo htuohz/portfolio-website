@@ -78,7 +78,7 @@ export default function Home() {
                   <b>10,000+ records migrated</b> with zero data loss and no change to how users sign in.
                 </li>
                 <li>
-                  <b>Sign-in over 50% faster</b> on average for 3,000+ users after removing the intermediate API layer.
+                  <b>Sign-in over 50% faster</b> on average for 4,000+ users after removing the intermediate API layer.
                   Sign-in API calls dropped from about 7–8 seconds to 3–4.
                 </li>
                 <li>
