@@ -1,30 +1,85 @@
-[![Watch tutorial here](https://img.youtube.com/vi/sUKptmUVIBM/0.jpg)](https://youtu.be/sUKptmUVIBM)
+# Ethan Zhou portfolio
 
-# [Watch video here](https://youtu.be/sUKptmUVIBM)
+Single-page portfolio built with Next.js (App Router) as a fully static export.
 
-## What you will learn
+## Develop
 
-- Latest Next.js 13 features
-- Next.js App Router
-- Next.js Server Actions
-- Client & Server Components
-- TypeScript (Beginner & Intermediate)
-- Tailwind CSS
-- Context API
-- Advanced Animations with Framer Motion
-- React.Email & Resend
-- Custom React hooks
-- Fresh, modern UI design
-- Light & Dark mode
-- Responsive website
+Requires Node.js 20.9+ (`.nvmrc` pins 22; run `nvm use` first).
 
-## Important
+```bash
+npm install
+npm run dev        # http://localhost:3000/portfolio-preview/
+```
 
-If you want to be a professional developer, you have to know the fundamentals like JavaScript and CSS really well. I highly recommend you go through my [Professional JavaScript](https://bytegrad.com/courses/professional-javascript) and [Professional CSS](https://bytegrad.com/courses/professional-css) courses.
+## Build
 
-I'm close to releasing a complete React & Next.js course. Get on the email list to receive early-bird pricing: [link](https://email.bytegrad.com/).
+The build output goes to `out/`. Two environment variables control where it will be served:
 
-## Setup
+| Variable   | Preview (default)                     | Production                  |
+|------------|---------------------------------------|-----------------------------|
+| `SITE_ENV` | anything other than `production`      | `production`                |
+| `SITE_URL` | `https://ops.dappergentsocks.com`     | `https://tianhaozhou.com`     |
 
-1. Add RESEND_API_KEY environment variable in .env.local
-2. In the send-email.ts action file, change the "to" email to your own email
+- Preview builds are served under `/portfolio-preview`, marked `noindex`, and `robots.txt` disallows everything.
+- Production builds are served from the domain root, indexable, with a sitemap.
+
+```bash
+SITE_ENV=production SITE_URL=https://tianhaozhou.com npm run build
+npm run preview    # serves out/ locally
+```
+
+## Content still to fill
+
+Search `app/page.tsx` for `<Fill>`: three values are marked and render highlighted until replaced. A production build fails while any remain.
+
+## Photo
+
+Put a square photo at `public/ethan-zhou.webp` and it appears in the header automatically.
+
+## Deploy (GitHub Actions)
+
+Every push to `master` (or a manual run from the Actions tab) runs `.github/workflows/deploy.yml`: `npm ci`, typecheck, build, then `rsync -az --delete out/` over SSH.
+
+Repository **variables** (Settings → Secrets and variables → Actions → Variables):
+
+| Variable   | Value                                                                  |
+|------------|------------------------------------------------------------------------|
+| `SITE_ENV` | `preview` (default) or `production`                                    |
+| `SITE_URL` | `https://ops.dappergentsocks.com` for preview, `https://tianhaozhou.com` for production |
+
+`SITE_ENV` also picks the target: `/var/www/portfolio/` for production, `/var/www/portfolio-preview/` otherwise. A production build fails while any `<Fill>` placeholder remains.
+
+Repository **secrets**:
+
+| Secret            | Value                                                                    |
+|-------------------|--------------------------------------------------------------------------|
+| `VPS_HOST`        | Droplet IP or hostname                                                   |
+| `VPS_USER`        | `deploy`, a dedicated user (not the one running the Shopify/YunExpress service) |
+| `VPS_SSH_KEY`     | Private key whose public half is in `/home/deploy/.ssh/authorized_keys`  |
+| `VPS_KNOWN_HOSTS` | Output of `ssh-keyscan -t ed25519 <host>`, so the runner verifies the server |
+
+### Caddy
+
+Preview, added inside the existing `ops.dappergentsocks.com` block:
+
+```
+handle /portfolio-preview* {
+  root * /var/www
+  encode zstd gzip
+  try_files {path} {path}/index.html =404
+  header /portfolio-preview/_next/static/* Cache-Control "public, max-age=31536000, immutable"
+  file_server
+}
+```
+
+Production, as its own site block:
+
+```
+tianhaozhou.com, www.tianhaozhou.com {
+  root * /var/www/portfolio
+  encode zstd gzip
+  try_files {path} {path}/index.html =404
+  header /_next/static/* Cache-Control "public, max-age=31536000, immutable"
+  file_server
+}
+```

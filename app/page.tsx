@@ -1,21 +1,306 @@
-import About from "@/components/about";
-import Contact from "@/components/contact";
-import Experience from "@/components/experience";
-import Intro from "@/components/intro";
-import Projects from "@/components/projects";
-import SectionDivider from "@/components/section-divider";
-import Skills from "@/components/skills";
+import fs from "node:fs";
+import path from "node:path";
+import { CopyEmail } from "@/components/copy-email";
+import { RouteDiagram } from "@/components/route-diagram";
+import { experience, stack } from "@/lib/content";
+import { asset, isProd, person } from "@/lib/site";
+
+// Drop a square photo at public/ethan-zhou.webp and it appears in the header.
+const hasPhoto = fs.existsSync(path.join(process.cwd(), "public", "ethan-zhou.webp"));
+
+/** Visible marker for copy that still needs a real value. Fails production builds so none ship. */
+function Fill({ children }: { children: React.ReactNode }) {
+  if (isProd) throw new Error(`Unfilled <Fill> placeholder: ${children}`);
+  return <span className="fill">{children}</span>;
+}
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center px-4">
-      <Intro />
-      <SectionDivider />
-      <About />
-      <Projects />
-      <Skills />
-      <Experience />
-      <Contact />
-    </main>
+    <>
+      <a className="skip" href="#work">
+        Skip to work
+      </a>
+      <div className="page" id="top">
+        <header className="top">
+          <div className="who">
+            {hasPhoto && (
+              <img className="avatar" src={asset("/ethan-zhou.webp")} alt="" width={56} height={56} />
+            )}
+            <div>
+              <strong>{person.name}</strong>
+              <span>
+                {person.title}, {person.city}
+              </span>
+            </div>
+          </div>
+          <nav aria-label="Sections">
+            <a href="#work">Work</a>
+            <a href="#experience">Experience</a>
+            <a href="#about">About</a>
+            <a href={asset("/CV.pdf")}>CV (PDF)</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </header>
+
+        <main>
+          <div className="hero">
+            <div className="hero-copy">
+              <h1>I modernise the systems businesses can’t afford to break.</h1>
+              <p className="lede">
+                I replace legacy dependencies, migrate live data and connect platforms that were never designed to talk
+                to each other. Currently at <strong>Linfox</strong>, working with React, TypeScript, Node.js, PostgreSQL
+                and AWS.
+              </p>
+            </div>
+            <RouteDiagram />
+          </div>
+
+          <section id="work" aria-labelledby="work-title">
+            <h2 className="section-title" id="work-title">
+              Selected work
+            </h2>
+
+            <article className="case">
+              <div className="case-meta">
+                <span className="org">Linfox</span>
+                <span>2025–present</span>
+              </div>
+              <h3>Replacing Dataverse without losing anyone’s access</h3>
+              <p>
+                I rebuilt authentication and authorisation for the customer portal around PostgreSQL on AWS RDS. Every
+                existing user had to keep the same sign-in and the same access to customer records on the day we
+                switched.
+              </p>
+              <ul className="results">
+                <li>
+                  <b>10,000+ records migrated</b> with zero data loss and no change to how users sign in.
+                </li>
+                <li>
+                  <b>Sign-in over 50% faster</b> on average for 3,000+ users after removing the intermediate API layer.
+                  Sign-in API calls dropped from about 7–8 seconds to 3–4.
+                </li>
+                <li>
+                  <b>Users can be set up directly in the portal</b>, with no matching record needed in Dataverse.
+                </li>
+              </ul>
+              <details>
+                <summary>How the data model works</summary>
+                <div className="notes">
+                  <p>
+                    I moved user, account and permission data into PostgreSQL with Prisma. A junction table links each
+                    user to the accounts they can see and what they can do there, so internal staff can work across many
+                    customers while external users stay scoped to one.
+                  </p>
+                  <p>
+                    The authorisation rules themselves didn’t change. Only where the data lives did, which kept the
+                    switch low-risk and easy to verify.
+                  </p>
+                </div>
+              </details>
+            </article>
+
+            <article className="case">
+              <div className="case-meta">
+                <span className="org">Linfox</span>
+                <span>2026</span>
+                <span className="tag">Prototype</span>
+              </div>
+              <h3>An order assistant that explains failures instead of guessing</h3>
+              <p>
+                I’m prototyping an assistant for the customer portal that drafts new orders from a user’s history and
+                explains why an order failed and how to fix it.
+              </p>
+              <ul className="results">
+                <li>
+                  <b>Data on demand.</b> A Lambda function queries order data when it’s needed and passes it to a Snowflake
+                  Cortex agent, avoiding the cost of syncing everything into Snowflake.
+                </li>
+                <li>
+                  <b>Same access rules as the portal.</b> The assistant reuses the existing visibility logic, so it can
+                  only see orders the user can already see.
+                </li>
+                <li>
+                  <b>Predictable answers.</b> Known error types map to pre-written explanations and fixes, rather than
+                  asking the model to interpret raw system errors.
+                </li>
+              </ul>
+            </article>
+
+            <article className="case">
+              <div className="case-meta">
+                <span className="org">Linfox</span>
+                <span>2025–present</span>
+              </div>
+              <h3>A self-service tool for master data</h3>
+              <p>
+                Updating <Fill>[which master data]</Fill> used to need a developer and up to an hour per request. I built
+                a role-restricted tool so <Fill>[which team]</Fill> can make the change themselves in under five minutes.
+              </p>
+              <div
+                className="timechart"
+                role="img"
+                aria-label="Time per task: previous process 30 to 60 minutes; self-service tool under 5 minutes."
+              >
+                <div className="row">
+                  <div className="lbl">
+                    Previous process<small>30–60 min</small>
+                  </div>
+                  <div className="track">
+                    <div className="band old" />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="lbl">
+                    Self-service tool<small>under 5 min</small>
+                  </div>
+                  <div className="track">
+                    <div className="band new" />
+                  </div>
+                </div>
+                <div className="axis" aria-hidden="true">
+                  <span>0</span>
+                  <span>15</span>
+                  <span>30</span>
+                  <span>45</span>
+                  <span>60 min</span>
+                </div>
+              </div>
+              <details>
+                <summary>Related work: SAP TM integration and data tables</summary>
+                <div className="notes">
+                  <p>
+                    I also integrated SAP TM with the customer portal and rebuilt its data-heavy tables, moving from
+                    Material UI Table to AG Grid. TanStack Query caching cut repeat requests when switching pages,
+                    and Zod validates request payloads before they reach downstream services.
+                  </p>
+                </div>
+              </details>
+            </article>
+
+            <article className="case">
+              <div className="case-meta">
+                <span className="org">Independent project</span>
+                <span>E-commerce operations</span>
+              </div>
+              <h3>Automating order handoff to a shipping provider</h3>
+              <p>
+                I built and run a TypeScript service that sends Shopify orders to YunExpress, with a dashboard for the
+                people handling them. It processes <Fill>[N]</Fill> orders a month.
+              </p>
+              <ol className="flow" aria-label="Order flow">
+                <li className="step">
+                  <span className="n">1</span>
+                  <p>Receive Shopify order</p>
+                </li>
+                <li className="step">
+                  <span className="n">2</span>
+                  <p>Check saved processing state</p>
+                </li>
+                <li className="step">
+                  <span className="n">3</span>
+                  <p>Forward to YunExpress</p>
+                </li>
+                <li className="step manual">
+                  <span className="n">4</span>
+                  <p>
+                    Operator reviews and marks it fulfilled
+                    <small>Deliberately manual, so a person decides when a customer is told it shipped.</small>
+                  </p>
+                </li>
+              </ol>
+              <div className="flow-key" aria-hidden="true">
+                <span>Solid line: automated</span>
+                <span>Dashed line: done by a person</span>
+              </div>
+              <details>
+                <summary>How it runs</summary>
+                <div className="notes">
+                  <p>
+                    Node.js and TypeScript, with SQLite for processing state and Express for the dashboard. Each order’s
+                    state is saved and failed requests retry automatically, so orders aren’t forwarded twice or silently
+                    dropped. It runs on a
+                    DigitalOcean VPS with PM2 and Caddy, deployed by GitHub Actions.
+                  </p>
+                </div>
+              </details>
+            </article>
+
+            <p className="disclosure">
+              Company work is described without internal code, customer names or system screenshots. Diagrams are
+              simplified.
+            </p>
+          </section>
+
+          <section id="experience" aria-labelledby="exp-title">
+            <h2 className="section-title" id="exp-title">
+              Experience
+            </h2>
+            <ol className="timeline">
+              {experience.map((job) => (
+                <li key={job.company}>
+                  <time dateTime={job.start}>{job.period}</time>
+                  <div>
+                    <h3>{job.company}</h3>
+                    <div className="role">{job.role}</div>
+                    <p>{job.summary}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <section id="about" aria-labelledby="about-title">
+            <h2 className="section-title" id="about-title">
+              About
+            </h2>
+            <div className="about">
+              <p>
+                I’m Tianhao, also known as Ethan. I’m based in Melbourne and have worked across logistics, healthcare
+                and e-commerce.
+              </p>
+              <p>
+                Before my Master of Science in Information Technology and Systems at the University of Tasmania, I
+                studied Russian Language and Literature at Beijing International Studies University. I speak Mandarin
+                natively and Russian fluently.
+              </p>
+              <p>
+                I’m looking for a senior individual-contributor role on a product team, where I can own features end to end and help make
+                systems simpler to change.
+              </p>
+            </div>
+            <div className="stack">
+              {stack.map((s) => (
+                <div key={s.group}>
+                  <h3>{s.group}</h3>
+                  <p>{s.items}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="contact" id="contact" aria-labelledby="contact-title">
+            <h2 id="contact-title">Have a role in mind?</h2>
+            <p>Email me about the team, the work and what you’re looking for.</p>
+            <CopyEmail email={person.email} />
+            <p className="alt">
+              Or find me on{" "}
+              <a href={person.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>{" "}
+              and{" "}
+              <a href={person.github} target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+              , or download my <a href={asset("/CV.pdf")}>CV (PDF)</a>.
+            </p>
+          </section>
+        </main>
+
+        <footer>
+          <span>© {new Date().getFullYear()} {person.name}</span>
+          <a href="#top">Back to top</a>
+        </footer>
+      </div>
+    </>
   );
 }
