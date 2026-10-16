@@ -5,7 +5,7 @@ export const experience = [
     start: "2025-02",
     period: "Feb 2025 – now",
     summary:
-      "Modernising the customer portal: access control, data migration and SAP TM integration. Also set up local development with Serverless Offline and moved bundling to esbuild for faster builds.",
+      "Redesigning the customer portal: a new PostgreSQL-based authorisation model, and ordering that creates orders in Blue Yonder. Also set up local development with Serverless Offline and moved bundling to esbuild for faster builds.",
   },
   {
     company: "Auxita",

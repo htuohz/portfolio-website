@@ -48,8 +48,8 @@ export default function Home() {
               <h1>I modernise the systems businesses can’t afford to break.</h1>
               <p className="lede">
                 I replace legacy dependencies, migrate live data and connect platforms that were never designed to talk
-                to each other. Currently at <strong>Linfox</strong>, working with React, TypeScript, Node.js, PostgreSQL
-                and AWS.
+                to each other. At <strong>Linfox</strong> my main project has been redesigning the customer portal,
+                with React, TypeScript, Node.js, PostgreSQL and AWS.
               </p>
             </div>
             <RouteDiagram />
@@ -64,10 +64,12 @@ export default function Home() {
               <div className="case-meta">
                 <span className="org">Linfox</span>
                 <span>2025–present</span>
+                <span className="tag">Portal redesign, part 1</span>
               </div>
               <h3>Replacing Dataverse without losing anyone’s access</h3>
               <p>
-                I rebuilt authentication and authorisation for the customer portal around PostgreSQL on AWS RDS. Every
+                The first project I took on at Linfox was redesigning the customer portal, starting with a new
+                authorisation model. I rebuilt authentication and authorisation around PostgreSQL on AWS RDS. Every
                 existing user had to keep the same sign-in and the same access to customer records on the day we
                 switched.
               </p>
@@ -97,6 +99,61 @@ export default function Home() {
                   </p>
                 </div>
               </details>
+            </article>
+
+            <article className="case">
+              <div className="case-meta">
+                <span className="org">Linfox</span>
+                <span>2025–present</span>
+                <span className="tag">Portal redesign, part 2</span>
+              </div>
+              <h3>Orders that go from the portal straight into the TMS</h3>
+              <p>
+                The other half of the redesign: customers create an order in the portal and it is created in Blue
+                Yonder, the transport management system. I worked with the portal team on the ordering interface, the
+                status that comes back once the order exists, and what customers see when it fails.
+              </p>
+              <ol className="flow" aria-label="Order flow and who owns each step">
+                <li className="step">
+                  <span className="n">1</span>
+                  <p>Customer creates the order in the portal</p>
+                </li>
+                <li className="step">
+                  <span className="n">2</span>
+                  <p>Portal validates and submits it</p>
+                </li>
+                <li className="step external">
+                  <span className="n">3</span>
+                  <p>
+                    Integration layer forwards it
+                    <small>Built and run by another team.</small>
+                  </p>
+                </li>
+                <li className="step">
+                  <span className="n">4</span>
+                  <p>
+                    Order created in Blue Yonder
+                    <small>Status and any errors shown back in the portal.</small>
+                  </p>
+                </li>
+              </ol>
+              <div className="flow-key" aria-hidden="true">
+                <span>Solid line: portal team, my work</span>
+                <span>Dashed line: another team</span>
+              </div>
+              <ul className="results">
+                <li>
+                  <b>Ordering interface.</b> Order creation in the portal, with request payloads validated by Zod before
+                  they leave it.
+                </li>
+                <li>
+                  <b>Status back in the portal.</b> Once Blue Yonder has the order, its status shows where the customer
+                  created it.
+                </li>
+                <li>
+                  <b>Failures explained.</b> When an order is rejected downstream, the portal shows why and what to change.
+                </li>
+              </ul>
             </article>
 
             <article className="case">
@@ -166,12 +223,11 @@ export default function Home() {
                 </div>
               </div>
               <details>
-                <summary>Related work: SAP TM integration and data tables</summary>
+                <summary>Related work: faster data tables</summary>
                 <div className="notes">
                   <p>
-                    I also integrated SAP TM with the customer portal and rebuilt its data-heavy tables, moving from
-                    Material UI Table to AG Grid. TanStack Query caching cut repeat requests when switching pages,
-                    and Zod validates request payloads before they reach downstream services.
+                    I also rebuilt the portal’s data-heavy tables, moving from Material UI Table to AG Grid with sorting
+                    and column reordering. TanStack Query caching cut repeat requests when switching pages.
                   </p>
                 </div>
               </details>
