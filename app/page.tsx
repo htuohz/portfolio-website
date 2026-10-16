@@ -75,11 +75,12 @@ export default function Home() {
               </p>
               <ul className="results">
                 <li>
-                  <b>10,000+ records migrated</b> with zero data loss and no change to how users sign in.
+                  <b>10,000+ records migrated</b>, including 3,000+ user accounts, with zero data loss and no change to how
+                  users sign in.
                 </li>
                 <li>
-                  <b>Sign-in over 50% faster</b> on average for 4,000+ users after removing the intermediate API layer.
-                  Sign-in API calls dropped from about 7–8 seconds to 3–4.
+                  <b>Sign-in over 50% faster</b> on average after removing the intermediate API layer, for a platform now
+                  used by 4,000+ people. Sign-in API calls dropped from about 7–8 seconds to 3–4.
                 </li>
                 <li>
                   <b>Users can be set up directly in the portal</b>, with no matching record needed in Dataverse.
