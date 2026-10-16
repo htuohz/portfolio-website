@@ -241,7 +241,7 @@ export default function Home() {
               <h3>Automating order handoff to a shipping provider</h3>
               <p>
                 I built and run a TypeScript service that sends Shopify orders to YunExpress, with a dashboard for the
-                people handling them. It processes <Fill>[N]</Fill> orders a month.
+                people handling them. It processes 100+ orders a month.
               </p>
               <ol className="flow" aria-label="Order flow">
                 <li className="step">
